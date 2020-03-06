@@ -22,30 +22,39 @@ const TechPage = () => {
             })
     }, [])
 
-    if (loading) {
-        content = (
-            <div style={{ textAlign: 'center'}}>... Loading ...</div>
-        )
-    } else {
-        content = (
-            <ul>
-                {techs.length ? (
-                    techs.map((tech: any, index: number) => (
-                        <li key={index}>{tech.framework} ({tech.lang})</li>
-                    ))
-                ) : (
-                        <li key={0} className="text-center">Список технологий пока пуст...</li>
-                    )}
-            </ul>
-        )
-    }
-
     return (
         <div className="tech-page">
             <h1 style={{ textAlign: 'center' }}>Technologies</h1>
-            { content }
+            <React.Suspense fallback={
+                <div style={{ textAlign: 'center' }}>... Loading ...</div>
+            }>
+                {loading ? (
+                    <div style={{ textAlign: 'center' }}>... Loading ...</div>
+                ) : (
+                        <TechList techs={techs} />
+                    )}
+            </React.Suspense>
         </div >
     )
 }
 
+type PropsList = {
+    techs: any[];
+}
+
+const TechList = ({ techs }: PropsList) => {
+    if (!techs.length) {
+        return (
+            <li key={0} className="text-center">Список технологий пока пуст...</li>
+        )
+    }
+
+    return (
+        <ul>
+            {techs.map((tech: any, index: number) => (
+                <li key={index}>{tech.framework} ({tech.lang})</li>
+            ))}
+        </ul>
+    )
+}
 export default TechPage
