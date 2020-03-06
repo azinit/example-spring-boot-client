@@ -1,7 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
-import './index.css';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import './index.css';
 import HomePage from './home';
 import TechPage from './tech';
 
